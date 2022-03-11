@@ -1,0 +1,11 @@
+version: '3'
+services:
+    silver-parakeet-REST:
+        image: crypto-rest:0.0.2
+        container_name: 'SilverParakeetREST'
+        environment:
+            - APP_NAME=SilverParakeetREST
+            - API_KEY=${API_KEY}
+            - EXTERNAL_RESOURCES_KEY=${EXTERNAL_RESOURCES_KEY}
+        ports:
+            - 8000:8000
