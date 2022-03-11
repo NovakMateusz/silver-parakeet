@@ -1,6 +1,6 @@
 # Silver Parakeet
 
-<img src="docs/logo.png" width="250" alt="Silver Parakeet Logo">
+<img src="docs/logo_white.png" width="250" alt="Silver Parakeet Logo">
 
 Projekt zaliczeniowy przedmiot Inżyniera Oprogramowania
 
