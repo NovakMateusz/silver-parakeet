@@ -4,7 +4,8 @@
 
 Projekt zaliczeniowy przedmiot Inżyniera Oprogramowania
 
-Głównym celem aplikacji jest umożliwienie użytkownikowi handlu krypto walutom. Silver Parakeet korzystając z zewnętrznych serwisów będzie przedstawiać zestawianie danych poświęconych kursom za ostatni miesiąc w formie dogodnych wykresów. Aby można było korzystać z aplikacji, użytkownik będzie musiał stworzyć konto, które powiązane będzie z portfelem, który przechowywać będzie zasoby. Bazując na przeprowadzonych zakupach użytkownik będzie miał dostęp do rankingu swoich inwestycji.  
+Głównym celem aplikacji jest umożliwienie użytkownikowi handlu krypto walutom. Silver Parakeet korzystając z zewnętrznych serwisów będzie przedstawiać zestawianie danych poświęconych kursom za ostatni miesiąc w formie dogodnych wykresów. Użytkownik rozpoczynając przygodę z aplikacją otrzyma pewną pulę wewnętrzej waluty, którą będzie mógł wydać na zakupy. Bazując na danych historycznych, tam gdzie jest to możliwe będziemy starać się przewidzieć wartości na najbliższą przyszłość. Aby można było korzystać z aplikacji, użytkownik będzie musiał stworzyć konto, które powiązane będzie z portfelem, który przechowywać będzie zasoby. Bazując na przeprowadzonych zakupach użytkownik będzie miał dostęp do rankingu swoich inwestycji.
+
 
 Zespół:
 - [Szymon Błaszczyk](https://github.com/gaser3)
@@ -15,5 +16,6 @@ Technologia:
 - Python 3.9
 - HTML
 - CSS
+- Bootstrap
 - JavaScript
 - Docker
