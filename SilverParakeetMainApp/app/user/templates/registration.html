@@ -8,13 +8,15 @@
     <h1>
         Login view
     </h1>
-    <form method="POST" action="/">
-        {{ form.csrf_token }}
-        {{ form.email.label }} {{ form.email(size=20) }}
-        {{ form.username.label }} {{ form.username(size=20) }}
-        {{ form.password.label }} {{ form.password(size=20) }}
-        {{ form.confirm_password.label }} {{ form.confirm_password(size=20) }}
-        <input type="submit" value="Go">
-    </form>
+    {% block content %}
+        <form method="POST" action="{{ url_for('user.register_view') }}">
+            {{ form.csrf_token }}
+            {{ form.email.label }} {{ form.email(size=20) }}
+            {{ form.username.label }} {{ form.username(size=20) }}
+            {{ form.password.label }} {{ form.password(size=20) }}
+            {{ form.confirm_password.label }} {{ form.confirm_password(size=20) }}
+            <input type="submit" value="Go">
+        </form>
+    {% endblock %}
 </body>
 </html>

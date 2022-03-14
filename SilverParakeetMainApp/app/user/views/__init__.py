@@ -1,7 +1,8 @@
-from flask import render_template
+from flask import render_template, request
 
 from app.user.forms import LoginForm, RegistrationForm
 from app.user import user_blueprint
+from app.user.models import User
 
 
 @user_blueprint.route('/login', methods=['POST', 'GET'])
@@ -18,6 +19,11 @@ def logout_view():
 @user_blueprint.route('/register', methods=['POST', 'GET'])
 def register_view():
     registration_form = RegistrationForm()
+    if request.method == 'POST':
+        username = request.form.get('username')
+        user = User.query.filter_by(username=username).first()
+        if not user:
+            print('USER NOT IN DB')
     return render_template('registration.html', form=registration_form)
 
 

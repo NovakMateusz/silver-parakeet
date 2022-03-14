@@ -1,5 +1,6 @@
 from flask import Flask
 
+from .extensions import db
 from settings import load
 
 
@@ -17,4 +18,5 @@ def create_app() -> Flask:
     register_blueprints(app)
     app_settings = load()
     app.config.from_object(app_settings)
+    db.init_app(app)
     return app
