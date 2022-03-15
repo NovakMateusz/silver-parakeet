@@ -1,6 +1,6 @@
 from flask import Flask
 
-from .extensions import db
+from .extensions import db, login_manager
 from settings import load
 
 
@@ -19,4 +19,5 @@ def create_app() -> Flask:
     app_settings = load()
     app.config.from_object(app_settings)
     db.init_app(app)
+    login_manager.init_app(app)
     return app
