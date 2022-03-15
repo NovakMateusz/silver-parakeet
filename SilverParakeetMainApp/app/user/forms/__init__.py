@@ -10,5 +10,5 @@ class LoginForm(FlaskForm):
 
 class RegistrationForm(LoginForm):
     email = EmailField('Email', validators=[InputRequired(), Email()])
-    password = PasswordField('Password', [InputRequired(), EqualTo('confirm', message='Passwords must match')])
+    password = PasswordField('Password', [InputRequired(), EqualTo('confirm_password', message='Passwords must match')])
     confirm_password = PasswordField('Repeat Password')
