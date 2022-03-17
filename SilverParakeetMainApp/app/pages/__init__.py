@@ -1,4 +1,4 @@
 from flask import Blueprint
 
 
-pages_blueprint = Blueprint('home_blueprint', __name__)
+pages_blueprint = Blueprint('pages', __name__)

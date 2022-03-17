@@ -9,7 +9,7 @@
         Login view
     </h1>
     {% block content %}
-        <form method="POST" action="{{ url_for('user.login_view') }}">
+        <form method="POST" action="{{ url_for('auth.login_view') }}">
             {{ form.csrf_token }}
 
             {{ form.username.label }} {{ form.username(size=20) }}

@@ -10,7 +10,16 @@ services:
         ports:
             - 8000:8000
     silver-parakeet-Main:
-        image: crypto-main:0.0.1
+        image: crypto-main:
         container_name: 'SilverParakeetMain'
         ports:
             - 8001:8000
+        environment:
+            - SECRET_KEY=${SECRET_KEY}
+            - API_KEY=${API_KEY}
+            - SQLALCHEMY_DATABASE_URI=${SQLALCHEMY_DATABASE_URI}
+            - MAIL_SERVER=${MAIL_SERVER}
+            - MAIL_PORT=${MAIL_PORT}
+            - MAIL_USE_SSL=${MAIL_USE_SSL}
+            - MAIL_USERNAME=${MAIL_USERNAME}
+            - MAIL_PASSWORD=${MAIL_PASSWORD}
