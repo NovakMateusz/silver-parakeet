@@ -1,4 +1,4 @@
 from flask import Blueprint
 
 
-trading_blueprint = Blueprint('trading_blueprint', __name__)
+trading_blueprint = Blueprint('trading', __name__)

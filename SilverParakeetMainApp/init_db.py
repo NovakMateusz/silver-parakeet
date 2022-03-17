@@ -2,7 +2,7 @@ from app import create_app, db
 
 
 if __name__ == '__main__':
-    from app.user.models import User, AccountActivationLink
+    from app.auth.models import User, AccountActivationLink
     app = create_app()
     db.create_all(app=app)
     with app.app_context():

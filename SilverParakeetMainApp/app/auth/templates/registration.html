@@ -9,7 +9,7 @@
         Register view
     </h1>
     {% block content %}
-        <form method="POST" action="{{ url_for('user.register_view') }}">
+        <form method="POST" action="{{ url_for('auth.register_view') }}">
             {{ form.csrf_token }}
 
             {{ form.email.label }} {{ form.email(size=20) }}
