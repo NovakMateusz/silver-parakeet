@@ -1,6 +1,8 @@
+from typing import Optional
+
 from flask import Flask
 
-from settings import load
+from settings import Settings
 from .extensions import db, login_manager, mail
 
 
@@ -19,11 +21,12 @@ def register_extensions(app: Flask):
     mail.init_app(app)
 
 
-def create_app() -> Flask:
+def create_app(app_settings: Optional[Settings] = None) -> Flask:
     app = Flask(__name__)
-    register_blueprints(app)
-    app_settings = load()
+    if not app_settings:
+        app_settings = Settings()
     app.config.from_object(app_settings)
-    register_extensions(app)
 
+    register_blueprints(app)
+    register_extensions(app)
     return app

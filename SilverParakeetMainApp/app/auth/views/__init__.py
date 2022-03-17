@@ -14,7 +14,7 @@ def send_email(activation_key: str, recipient: str):
     url_prefix = request.url_root
     url_suffix = url_for('auth.account_activation_view', activation_id=activation_key)
     activation_url = urllib.parse.urljoin(url_prefix, url_suffix)
-    msg = Message('Activate email', recipients=recipient)
+    msg = Message('Activate email', recipients=[recipient])
     msg.body = activation_url
     mail.send(msg)
 
