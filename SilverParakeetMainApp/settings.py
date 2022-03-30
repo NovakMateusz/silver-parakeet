@@ -4,8 +4,7 @@ import os
 class Settings:
     def __init__(self):
         self.SECRET_KEY = os.environ.get('SECRET_KEY', 'DevelopmentKey')
-        if not self.SECRET_KEY:
-            raise AttributeError('Missing SECRET_KEY value')
+
         self.SQLALCHEMY_DATABASE_URI = os.environ.get('SQLALCHEMY_DATABASE_URI', 'sqlite:///SilverParakeet.sqlite')
         self.SQLALCHEMY_TRACK_MODIFICATIONS = False
 
@@ -19,4 +18,3 @@ class Settings:
         self.MAIL_PASSWORD = os.environ.get('MAIL_PASSWORD')
         if not self.MAIL_PASSWORD:
             raise AttributeError('Missing MAIL_PASSWORD value')
-
