@@ -39,11 +39,11 @@ Głównym celem aplikacji jest umożliwienie użytkownikowi handlu krypto waluto
 Wymagania wstępne:
 - Zainstaluj oprogramowanie [Docker Desktop](https://docs.docker.com/desktop/)
 
-1. Z głównego folderu przejdź do SilverParakeetMainApp i zbuduj obraz
+1. Z głównego folderu przejdź do cryptoMainApp i zbuduj obraz
 ```console  
 docker build -t crypto-main:latest . 
 ```
-2. Z głównego folderu przejdź do externalServicesREST i zbuduj obraz
+2. Z głównego folderu przejdź do cryptoRESTApi i zbuduj obraz
 ```console
 docker build -t crypto-rest:latest .
 ```
