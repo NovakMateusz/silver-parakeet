@@ -1,12 +1,25 @@
 from datetime import datetime
+from typing import Optional
+import os
 from pathlib import Path
 import pickle
 import warnings
 
+from dropbox import Dropbox
+from dropbox.exceptions import AuthError
 import pandas as pd
 from prophet import Prophet
 
 warnings.simplefilter(action='ignore', category=FutureWarning)
+
+
+def connect_to_dropbox(api_key: str) -> Optional[Dropbox]:
+    dbx = None
+    try:
+        dbx = Dropbox(api_key)
+    except AuthError as e:
+        print('Error connecting to Dropbox with access token: ' + str(e))
+    return dbx
 
 
 def clean_dataframe(df: pd.DataFrame) -> pd.DataFrame:
@@ -22,6 +35,7 @@ def clean_dataframe(df: pd.DataFrame) -> pd.DataFrame:
 if __name__ == '__main__':
     models = {}
     for file in Path('datasets').glob('*HistoricalData.csv'):
+
         filename = file.name
         currency_name = filename.split('HistoricalData.csv')[0]
 
@@ -45,4 +59,7 @@ if __name__ == '__main__':
     filename = f'models_{datetime.now().strftime("%d-%m-%Y")}.pickle'
     pickle.dump(models, open(filename, 'wb'))
 
-    # TO DO: upload pickle file to SFTP server
+    dropbox_key = os.environ.get("DROPBOX_API_KEY")
+    dropbox_connection = connect_to_dropbox(dropbox_key)
+    with open(filename, 'rb') as f:
+        dropbox_connection.files_upload(f.read(), f'/forecastingModels/{filename}')
