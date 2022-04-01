@@ -5,3 +5,7 @@ __pycache__
 temp.txt
 mainEnv
 *.sqlite
+venv
+experimentsEnv
+*.pickle
+experiments/datasets/*.csv
