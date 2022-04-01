@@ -32,6 +32,7 @@ Głównym celem aplikacji jest umożliwienie użytkownikowi handlu krypto waluto
 | MAIL_USE_SSL            | True                            | Wykorzystanie enkrypcji SSL                  | Main        |
 | MAIL_USERNAME           | Brak                            | Nazwa użytkownika wysyłajacego wiadomość     | Main        |
 | MAIL_PASSWORD           | Brak                            | Hasło użytkownika wysyłającego wiadomość     | Main        |
+| DROPBOX_API_KEY         | Brak                            | Klucz do komunikacji z API Dropbox'a         | REST        |
 
 
 ### Jak uruchomić
