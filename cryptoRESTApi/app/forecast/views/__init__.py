@@ -4,7 +4,7 @@ from pydantic import ValidationError
 from app.forecast import forecast_blueprint
 from app.forecast.models import (PredictionInputModel, PredictionErrorResponseModel, PredictionResponseModel,
                                  CumulativePredictionResponseModel)
-from app.utils.constans import SYMBOL_NAME_MAPPING, NAME_SYMBOL_MAPPING
+from app.utils.constans import SYMBOL_NAME_MAPPING
 from app.utils.errors import extract_message_from_error
 
 
