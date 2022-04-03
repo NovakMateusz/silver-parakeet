@@ -7,6 +7,7 @@ services:
             - APP_NAME=SilverParakeetREST
             - API_KEY=${API_KEY}
             - EXTERNAL_RESOURCES_KEY=${EXTERNAL_RESOURCES_KEY}
+            - DROPBOX_API_KEY=${DROPBOX_API_KEY}
         ports:
             - 5000:8000
     silver-parakeet-Main:

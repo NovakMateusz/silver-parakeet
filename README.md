@@ -21,17 +21,20 @@ Głównym celem aplikacji jest umożliwienie użytkownikowi handlu krypto waluto
 - SQLite
 
 ### Zmienne środowiskowe
-| Nazwa                   | Wartość domyślna                | Opis                                         | Komponent   |
-|-------------------------|---------------------------------|----------------------------------------------|-------------|
-| API_KEY                 | Brak                            | Klucz do komunikacji z REST API              | Main / REST |
-| EXTERNAL_RESOURCES_KEY  | Brak                            | Klucz do komunikacji z zewnętrzynym REST API | REST        |
-| SECRET_KEY              | DevelopmentKey                  | Klucz zabezpieczajacy sesje klienta          | Main        |
-| SQLALCHEMY_DATABASE_URI | sqlite:///SilverParakeet.sqlite | Ścieżka do bazy danych                       | Main        |
-| MAIL_SERVER             | smtp.gmail.com                  | Adres serwera SMTP                           | Main        |
-| MAIL_PORT               | 465                             | Port serwera SMTP                            | Main        |
-| MAIL_USE_SSL            | True                            | Wykorzystanie enkrypcji SSL                  | Main        |
-| MAIL_USERNAME           | Brak                            | Nazwa użytkownika wysyłajacego wiadomość     | Main        |
-| MAIL_PASSWORD           | Brak                            | Hasło użytkownika wysyłającego wiadomość     | Main        |
+| Nazwa                   | Wartość domyślna                | Opis                                                        | Komponent   |
+|-------------------------|---------------------------------|-------------------------------------------------------------|-------------|
+| API_KEY                 | Brak                            | Klucz do komunikacji z REST API                             | Main / REST |
+| EXTERNAL_RESOURCES_KEY  | Brak                            | Klucz do komunikacji z zewnętrzynym REST API                | REST        |
+| SECRET_KEY              | DevelopmentKey                  | Klucz zabezpieczajacy sesje klienta                         | Main        |
+| SQLALCHEMY_DATABASE_URI | sqlite:///SilverParakeet.sqlite | Ścieżka do bazy danych                                      | Main        |
+| MAIL_SERVER             | smtp.gmail.com                  | Adres serwera SMTP                                          | Main        |
+| MAIL_PORT               | 465                             | Port serwera SMTP                                           | Main        |
+| MAIL_USE_SSL            | True                            | Wykorzystanie enkrypcji SSL                                 | Main        |
+| MAIL_USERNAME           | Brak                            | Nazwa użytkownika wysyłajacego wiadomość                    | Main        |
+| MAIL_PASSWORD           | Brak                            | Hasło użytkownika wysyłającego wiadomość                    | Main        |
+| DROPBOX_API_KEY         | Brak                            | Klucz do komunikacji z API Dropbox'a                        | REST        |
+| MODELS_HASH             | Brak                            | Unikalna nazwa paczki z modelami                            | REST        |
+| MODELS_DIRECTORY        | /forecastingModels              | Ścieżka do Dropbox'a, gdzie można znaleźć paczkę z modelami | REST        |
 
 
 ### Jak uruchomić
@@ -39,11 +42,11 @@ Głównym celem aplikacji jest umożliwienie użytkownikowi handlu krypto waluto
 Wymagania wstępne:
 - Zainstaluj oprogramowanie [Docker Desktop](https://docs.docker.com/desktop/)
 
-1. Z głównego folderu przejdź do SilverParakeetMainApp i zbuduj obraz
+1. Z głównego folderu przejdź do cryptoMainApp i zbuduj obraz
 ```console  
 docker build -t crypto-main:latest . 
 ```
-2. Z głównego folderu przejdź do externalServicesREST i zbuduj obraz
+2. Z głównego folderu przejdź do cryptoRESTApi i zbuduj obraz
 ```console
 docker build -t crypto-rest:latest .
 ```

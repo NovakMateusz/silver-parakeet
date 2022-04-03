@@ -1,0 +1,7 @@
+version: '3'
+services:
+    silver-parakeet-forecast:
+        image: crypto-experiments:latest
+        container_name: 'ForecastExperiments'
+        environment:
+            - DROPBOX_API_KEY=sl.BFDT6OnWesSBBR5a2SyNvwo-qmTLRC9v8YQcnQZn34iOpzCNvH7YwWJfd20A35i2N5_-2OgNySILcqDPMjtVgPg_a1QUkNKzPkkBehTicnuvS0fdkQVJfcO2ZIZhwbo9bSNf-48dHcuh
