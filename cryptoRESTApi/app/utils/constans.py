@@ -1,4 +1,8 @@
-SYMBOL_NAME_MAPPING = {
+from enum import Enum
+
+__all__ = ['CODE_NAME_MAPPING', 'NAME_CODE_MAPPING', 'ExternalServiceResponseFieldsName']
+
+CODE_NAME_MAPPING = {
     'BTC': 'Bitcoin',
     'ETH': 'Ethereum',
     'USDT': 'Tether',
@@ -16,7 +20,7 @@ SYMBOL_NAME_MAPPING = {
     'SHIB': 'ShibaInu'
 }
 
-NAME_SYMBOL_MAPPING = {
+NAME_CODE_MAPPING = {
     'Bitcoin': 'BTC',
     'Ethereum': 'ETH',
     'Tether': 'USDT',
@@ -33,3 +37,15 @@ NAME_SYMBOL_MAPPING = {
     'TerraUSD': 'UST',
     'ShibaInu': 'SHIB'
 }
+
+
+class ExternalServiceResponseFieldsName(Enum):
+    from_currency_code = '1. From_Currency Code'
+    from_currency_name = '2. From_Currency Name'
+    to_currency_code = '3. To_Currency Code'
+    to_currency_name = '4. To_Currency Name'
+    exchange_rate = '5. Exchange Rate'
+    last_refreshed = '6. Last Refreshed'
+    time_zone = '7. Time Zone'
+    bid_price = '8. Bid Price'
+    ask_price = '9. Ask Price'

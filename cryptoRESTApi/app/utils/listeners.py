@@ -1,24 +1,28 @@
 from asyncio import AbstractEventLoop
 import pickle
 from typing import Dict
+from socket import AF_INET
 
 import aiohttp
-from aiocache import Cache
+from aiocache import Cache, SimpleMemoryCache
 from dropbox import Dropbox
 from sanic import Sanic
 from sanic.log import logger
 import ujson
 from prophet import Prophet
 
-from app.utils.constans import NAME_SYMBOL_MAPPING
+from app.utils.constans import NAME_CODE_MAPPING
 
 __all__ = ['init_aiohttp_session', 'load_models', 'init_aiocache']
 
 
 async def init_aiohttp_session(app: Sanic, loop: AbstractEventLoop):
     app.ctx.aiohttp_session = aiohttp.ClientSession(connector=aiohttp.TCPConnector(
-        resolver=aiohttp.AsyncResolver()),
-        json_serialize=ujson.dumps
+        resolver=aiohttp.AsyncResolver(),
+        family=AF_INET,
+        ssl=False),
+        json_serialize=ujson.dumps,
+
     )
 
 
@@ -52,7 +56,7 @@ async def load_models(app: Sanic, loop: AbstractEventLoop):
         future = model.make_future_dataframe(periods=365)
         temp_model = model.predict(future)
         temp_model = temp_model[['ds', 'yhat']].set_index('ds')
-        forecast_dictionary[NAME_SYMBOL_MAPPING[key]] = temp_model.rename(columns={'yhat': 'Close'})
+        forecast_dictionary[NAME_CODE_MAPPING[key]] = temp_model.rename(columns={'yhat': 'Close'})
     app.ctx.forecast_dictionary = forecast_dictionary
 
     logger_parent = logger.parent

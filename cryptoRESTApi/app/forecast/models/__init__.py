@@ -2,7 +2,7 @@ from typing import Dict, List
 
 from pydantic import BaseModel
 
-from app.models import InputModel
+from app.models import InputModel, ErrorResponseModel
 
 __all__ = ['PredictionErrorResponseModel', 'PredictionInputModel', 'PredictionResponseModel',
            'CumulativePredictionResponseModel']
@@ -12,15 +12,13 @@ class PredictionInputModel(InputModel):
     pass
 
 
-class PredictionErrorResponseModel(BaseModel):
-    endpoint: str
-    message: str
-    status_code: int
+class PredictionErrorResponseModel(ErrorResponseModel):
+    pass
 
 
 class PredictionResponseModel(BaseModel):
     name: str
-    symbol: str
+    code: str
     prediction: Dict
 
 
