@@ -8,4 +8,4 @@ mainEnv
 venv
 experimentsEnv
 *.pickle
-experiments/datasets/*.csv
+cryptoExperiments/datasets/*.csv
