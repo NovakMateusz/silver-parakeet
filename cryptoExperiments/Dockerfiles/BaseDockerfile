@@ -1,0 +1,12 @@
+FROM python:3.7-bullseye
+
+WORKDIR /cryptoExperiments
+
+COPY ../datasets ./datasets
+COPY ../requirements.txt ./requirements.txt
+COPY ../buildModles.py ./buildModles.py
+
+RUN python3 -m venv venv
+RUN . venv/bin/activate && pip3 install --upgrade pip && pip3 install --no-cache-dir --upgrade -r requirements.txt
+
+ENV PATH /venv/bin:$PATH

@@ -3,7 +3,9 @@ from typing import Optional
 import os
 from pathlib import Path
 import pickle
+from uuid import uuid4
 import warnings
+import sys
 
 from dropbox import Dropbox
 from dropbox.exceptions import AuthError
@@ -33,6 +35,7 @@ def clean_dataframe(df: pd.DataFrame) -> pd.DataFrame:
 
 
 if __name__ == '__main__':
+
     models = {}
     for file in Path('datasets').glob('*HistoricalData.csv'):
 
@@ -56,10 +59,17 @@ if __name__ == '__main__':
         model.fit(close_price_to_predict_on)
         models[currency_name] = {'model': model}
 
-    filename = f'models_{datetime.now().strftime("%d-%m-%Y")}.pickle'
-    pickle.dump(models, open(filename, 'wb'))
+    model_hash = str(uuid4())
+    filename = f'{model_hash}.pickle'
+
+    pickle_object = pickle.dumps(models)
 
     dropbox_key = os.environ.get("DROPBOX_API_KEY")
     dropbox_connection = connect_to_dropbox(dropbox_key)
-    with open(filename, 'rb') as f:
-        dropbox_connection.files_upload(f.read(), f'/forecastingModels/{filename}')
+    dropbox_path = f'/forecastingModels/{filename}'
+    print(f'Object size: {sys.getsizeof(pickle_object)}')
+
+    dropbox_connection.files_upload(pickle_object, dropbox_path)
+
+    print(f'Model hash: {model_hash}')
+    print(f'Has been saved {dropbox_path}')
