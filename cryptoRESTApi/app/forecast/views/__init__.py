@@ -4,11 +4,13 @@ from pydantic import ValidationError
 from app.forecast import forecast_blueprint
 from app.forecast.models import (PredictionInputModel, PredictionErrorResponseModel, PredictionResponseModel,
                                  CumulativePredictionResponseModel)
+from app.utils.auth import protected
 from app.utils.constans import CODE_NAME_MAPPING
 from app.utils.errors import extract_message_from_error
 
 
 @forecast_blueprint.get('/predictions')
+@protected
 async def predictions_view(request: Request):
     try:
         input_model = PredictionInputModel(**request.args)
