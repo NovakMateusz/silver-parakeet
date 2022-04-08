@@ -1,30 +1,24 @@
 from typing import Dict, List
 
-from pydantic import BaseModel, validator
+from pydantic import BaseModel
 
-from app.utils.validators import known_symbols_validator, symbol_length_validator
+from app.models import InputModel, ErrorResponseModel
 
 __all__ = ['PredictionErrorResponseModel', 'PredictionInputModel', 'PredictionResponseModel',
            'CumulativePredictionResponseModel']
 
 
-class PredictionInputModel(BaseModel):
-    symbol: List[str]
-
-    # validators
-    _symbol_length_validator = validator('symbol', allow_reuse=True)(symbol_length_validator)
-    _known_symbols_validator = validator('symbol', allow_reuse=True)(known_symbols_validator)
+class PredictionInputModel(InputModel):
+    pass
 
 
-class PredictionErrorResponseModel(BaseModel):
-    endpoint: str
-    message: str
-    status_code: int
+class PredictionErrorResponseModel(ErrorResponseModel):
+    pass
 
 
 class PredictionResponseModel(BaseModel):
     name: str
-    symbol: str
+    code: str
     prediction: Dict
 
 
