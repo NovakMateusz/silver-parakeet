@@ -15,7 +15,8 @@ def init_json_logging(app: Sanic):
 def register_blueprints(app: Sanic):
     from app.health.views import health_blueprint
     from app.forecast.views import forecast_blueprint
-    blueprints_group = Blueprint.group(health_blueprint, forecast_blueprint, version='v1')
+    from app.exchange.views import exchange_blueprint
+    blueprints_group = Blueprint.group(health_blueprint, forecast_blueprint, exchange_blueprint, version='v1')
     app.blueprint(blueprints_group)
 
 
