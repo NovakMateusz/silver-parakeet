@@ -1,4 +1,6 @@
+from pathlib import Path
 from typing import Optional
+
 
 from flask import Flask
 
@@ -22,7 +24,8 @@ def register_extensions(app: Flask):
 
 
 def create_app(app_settings: Optional[Settings] = None) -> Flask:
-    app = Flask(__name__)
+    template_path = Path('./templates')
+    app = Flask(__name__, template_folder=str(template_path))
     if not app_settings:
         app_settings = Settings()
     app.config.from_object(app_settings)

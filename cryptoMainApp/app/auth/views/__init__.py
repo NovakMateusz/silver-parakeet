@@ -1,8 +1,9 @@
 import urllib.parse
 
-from flask import render_template, redirect, request, url_for
+from flask import flash, render_template, redirect, request, url_for
 from flask_login import login_required, logout_user, current_user, login_user
 from flask_mail import Message
+from sqlalchemy.exc import IntegrityError
 
 from app.auth.forms import LoginForm, RegistrationForm
 from app.auth import auth_blueprint
@@ -44,7 +45,7 @@ def login_view():
             login_user(user)
             return redirect(url_for('pages.home_view'))
         else:
-            print('No user')
+            flash('Wrong username or password')
     return render_template('login.html', form=login_form)
 
 
@@ -71,17 +72,25 @@ def register_view():
         user = User.query.filter_by(username=username).first()
         if not user:
             email = request.form.get('email')
-            password = request.form.get('password')
+            if User.query.filter_by(email=email).first():
+                flash("Email already taken")
+            else:
+                password = request.form.get('password')
+                new_user = User(username=username, email=email, password=password)
+                new_link = AccountActivationLink(user=new_user)
+                try:
+                    db.session.add(new_user)
+                    db.session.add(new_link)
+                    db.session.commit()
+                except IntegrityError as error:
+                    flash("Internal Server Error")
+                    print(error)
+                else:
+                    send_email(new_link.value, email)
 
-            new_user = User(username=username, email=email, password=password)
-            new_link = AccountActivationLink(user=new_user)
-
-            db.session.add(new_user)
-            db.session.add(new_link)
-            db.session.commit()
-
-            send_email(new_link.value, email)
-            return redirect(url_for('auth.login_view'))
+                return redirect(url_for('auth.login_view'))
+        else:
+            flash("Username already taken")
     return render_template('registration.html', form=registration_form)
 
 
