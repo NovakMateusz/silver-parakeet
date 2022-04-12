@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% block content_block %}
+    <div class="row mt-5">
+    {% for key, value in state.items() %}
+
+        <div class="card" style="width: 18rem;">
+          <img src="{{ url_for('static', filename=value['filename']) }}" class="card-img-top" alt="...">
+          <div class="card-body">
+            <p class="card-text">Key: {{ key }}<br>Value: {{ value['state'] }}</p>
+          </div>
+        </div>
+    {% endfor %}
+
+    </div>
+
+{% endblock %}

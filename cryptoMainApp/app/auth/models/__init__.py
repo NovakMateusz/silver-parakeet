@@ -54,5 +54,3 @@ class AccountActivationLink(db.Model):
     value = db.Column(db.String(34), unique=True, default=get_uuid)
     sent = db.Column(db.Boolean, default=False)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
-
-
