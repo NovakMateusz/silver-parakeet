@@ -9,11 +9,6 @@ def home_view():
     return render_template('home.html')
 
 
-@pages_blueprint.route('/about')
-def about_view():
-    return render_template('about.html')
-
-
 @pages_blueprint.route('/contact')
 def contact_view():
     return render_template('contact.html')
