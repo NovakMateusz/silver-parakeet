@@ -20,6 +20,9 @@ Głównym celem aplikacji jest umożliwienie użytkownikowi handlu krypto waluta
 - Docker
 - SQLite
 
+### Diagram bazy danych
+![Diagram bazy danych](docs/databaseDiagram.png)
+
 ### Zmienne środowiskowe
 | Nazwa                   | Wartość domyślna                  | Opis                                                        | Komponent   |
 |-------------------------|-----------------------------------|-------------------------------------------------------------|-------------|
