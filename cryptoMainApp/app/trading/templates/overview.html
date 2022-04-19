@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block content_block %}
+
+    <div class="d-flex justify-content-center">
+        <div class="row mt-5">
+            <div class="col-md-12">
+                {% for row in elements %}
+                    <div class="row my-1">
+                        {% for item in row %}
+                            <div class="card mx-2" style="width: 14rem;">
+                                <div class="text-center">
+                                    <img class="card-img-top" style="width: 10rem; height: 10rem;"
+                                         src="{{ url_for('static', filename=item['filename']) }}" alt="Card image cap">
+                                </div>
+                                <div class="card-body">
+                                    <h5 class="card-title">{{ item['name'] }}</h5>
+                                    <p class="card-text">State: {{ item['state'] }}</p>
+                                    <div class="text-center">
+                                        <a href="#" class="btn btn-secondary">Information</a>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

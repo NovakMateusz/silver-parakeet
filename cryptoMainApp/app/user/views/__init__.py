@@ -4,7 +4,7 @@ from flask import render_template
 from flask_login import login_required
 
 from app.user import user_blueprint
-from app.user.utils import prepare_items
+from app.utils.prepare_data import prepare_items
 
 
 @user_blueprint.route('/account')
