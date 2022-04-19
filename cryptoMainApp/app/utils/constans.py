@@ -1,4 +1,4 @@
-__all__ = ['CODE_NAME_MAPPING', 'NAME_CODE_MAPPING']
+__all__ = ['CODE_NAME_MAPPING', 'NAME_CODE_MAPPING', 'ALLOWED_OPERATION_TYPES']
 
 
 CODE_NAME_MAPPING = {
@@ -36,3 +36,5 @@ NAME_CODE_MAPPING = {
     'TerraUSD': 'UST',
     'ShibaInu': 'SHIB'
 }
+
+ALLOWED_OPERATION_TYPES = ['sell', 'buy']

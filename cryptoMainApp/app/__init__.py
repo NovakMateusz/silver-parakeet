@@ -3,14 +3,14 @@ from typing import Optional
 
 
 from flask import Flask
-from sqlalchemy.future import Engine
-from sqlmodel import create_engine, SQLModel
 
 from settings import Settings
 from .extensions import db, login_manager, mail
+from .auth.models import *
+from .trading.models import *
 
 
-def register_blueprints(app: Flask):
+def register_blueprints(app: Flask) -> None:
     from .auth.views import auth_blueprint
     from .pages.views import pages_blueprint
     from .trading.views import trading_blueprint
@@ -21,13 +21,10 @@ def register_blueprints(app: Flask):
     app.register_blueprint(user_blueprint)
 
 
-def register_extensions(app: Flask):
+def register_extensions(app: Flask) -> None:
     login_manager.init_app(app)
     mail.init_app(app)
-
-
-def init_db_engine(database_uri: str) -> Engine:
-    return create_engine(database_uri)
+    db.init_app(app)
 
 
 def create_app(app_settings: Optional[Settings] = None) -> Flask:
@@ -40,6 +37,4 @@ def create_app(app_settings: Optional[Settings] = None) -> Flask:
     register_blueprints(app)
     register_extensions(app)
 
-    engine: Engine = init_db_engine(app_settings.SQLALCHEMY_DATABASE_URI)
-    SQLModel.metadata.create_all(engine)
     return app
