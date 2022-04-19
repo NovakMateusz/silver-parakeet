@@ -2,7 +2,8 @@ from datetime import datetime
 import uuid
 from werkzeug.security import generate_password_hash, check_password_hash
 
-from app.extensions import db, login_manager
+from app.extensions import db
+# from app.trading.models import TransactionHistory, Currency
 
 
 def get_uuid() -> str:
@@ -20,7 +21,10 @@ class User(db.Model):
     active = db.Column(db.Boolean, default=False)
     authenticated = db.Column(db.Boolean, default=False)
     created_at = db.Column(db.DateTime, default=datetime.now)
-    link = db.relationship('AccountActivationLink', uselist=False, backref="user")
+
+    link = db.relationship('AccountActivationLink',  uselist=False, backref='user')
+    # transaction_history = db.relationship('TransactionHistory', backref='user')
+    wallet = db.relationship('Wallet',  uselist=False, backref='user')
 
     def __init__(self, username: str, email: str, password: str):
         self.public_id = str(uuid.uuid4())
