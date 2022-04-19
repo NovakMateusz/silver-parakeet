@@ -9,3 +9,4 @@ venv
 experimentsEnv
 *.pickle
 cryptoExperiments/datasets/*.csv
+dev_docker-compose.yaml

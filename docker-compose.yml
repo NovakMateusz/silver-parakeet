@@ -3,27 +3,24 @@ services:
     silver-parakeet-REST:
         image: crypto-rest:latest
         container_name: 'SilverParakeetREST'
-        ports:
-            - 5000:8000
         environment:
             - APP_NAME=SilverParakeetREST
-            - API_KEY=b9cf0ac3-6f85-45c6-ac1b-cf57b2c0e077
-            - EXTERNAL_RESOURCES_KEY=BT4NYIV40YCP3R9B
-            - EXTERNAL_RESOURCES_URL=https://www.alphavantage.co/query
-            - DROPBOX_API_KEY=sl.BFVlBNU7P4fgDkLHZLNDvTJ9g43fcqvU4GlrL0tFcXZNHHOf4W7HgdlklSvlttxDkgn1rkELtf0denKb110KkvJ3QuNOGu9SJVjimwvFHNvPaVgSP8h9jAPbuANRGxosDpYgZIdLUVeo
-            - MODELS_DIRECTORY=/forecastingModels
-            - MODELS_HASH=9a95ef58-0699-4553-ab65-8e811edcea59
+            - API_KEY=${API_KEY}
+            - EXTERNAL_RESOURCES_KEY=${EXTERNAL_RESOURCES_KEY}
+            - DROPBOX_API_KEY=${DROPBOX_API_KEY}
+        ports:
+            - 5000:8000
     silver-parakeet-Main:
-        image: crypto-main:test
+        image: crypto-main:latest
         container_name: 'SilverParakeetMain'
         ports:
             - 8000:8000
         environment:
-            - SECRET_KEY=7ceb746d-5855-4d30-810f-82ae4a8a74cd
-            - API_KEY=b9cf0ac3-6f85-45c6-ac1b-cf57b2c0e077
-            - SQLALCHEMY_DATABASE_URI=sqlite:///SilverParakeet.sqlite
-            - MAIL_SERVER=smtp.gmail.com
-            - MAIL_PORT=465
-            - MAIL_USE_SSL=True
-            - MAIL_USERNAME=silverpaarakeet@gmail.com
-            - MAIL_PASSWORD=N%7prvX%VRfW
+            - SECRET_KEY=${SECRET_KEY}
+            - API_KEY=${API_KEY}
+            - SQLALCHEMY_DATABASE_URI=${SQLALCHEMY_DATABASE_URI}
+            - MAIL_SERVER=${MAIL_SERVER}
+            - MAIL_PORT=${MAIL_PORT}
+            - MAIL_USE_SSL=${MAIL_USE_SSL}
+            - MAIL_USERNAME=${MAIL_USERNAME}
+            - MAIL_PASSWORD=${MAIL_PASSWORD}
