@@ -8,3 +8,9 @@ class MessageForm(FlaskForm):
     surname = StringField('Surname')
     email = EmailField('Email', validators=[InputRequired(), Email()])
     message = TextAreaField(validators=[Length(max=512)])
+
+    def reset_fields(self):
+        self.name.data = ''
+        self.surname.data = ''
+        self.email.data = ''
+        self.message.data = ''

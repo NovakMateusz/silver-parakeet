@@ -1,32 +1,172 @@
 {% extends "base.html" %}
+
+{% macro build_list_item(id, wallet, images) -%}
+<li class="list-group-item">
+    <div class="row align-items-center">
+        <div class="col-2">
+            <img class="card-img-top"
+                 src="{{ url_for('static', filename=images[wallet[id]['name']]) }}"
+                 alt="{wallet[id]['name']} logo"
+                 style="width: 2rem; height: 2rem;">
+        </div>
+        <div class="col-3">{{ wallet[id]['name'] }}</div>
+        <div class="col-2">{{ wallet[id]['code'] }}</div>
+        <div class="col-2">{{ wallet[id]['amount'] }}</div>
+        <div class="col-3"><button type="button" class="btn btn-secondary btn-sm">Buy or Sell</button></div>
+    </div>
+</li>
+{%- endmacro %}
+
 {% block content_block %}
-    <div class="d-flex justify-content-center">
-        <div class="row mt-5">
-            <div class="col-md-12">
-                {% for row in elements %}
-                    <div class="row my-1">
-                    {% for item in row %}
-                        <div class="card mx-2" style="width: 14rem;">
-                            <div class="text-center">
-                              <img class="card-img-top" style="width: 10rem; height: 10rem;" src="{{ url_for('static', filename=item['filename']) }}" alt="Card image cap">
-                            </div>
+
+    {% set user = output['user'] %}
+    {% set in_house = output['wallet']['in-house'] %}
+    {% set wallet = output['wallet']['crypto'] %}
+    {% set transaction_history = output['transaction_history'] %}
+
+    <div class="accordion" id="accordionPanelsStayOpenExample">
+        <div class="accordion-item">
+            <h2 class="accordion-header" id="panelsStayOpen-headingOne">
+                <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                        data-bs-target="#panelsStayOpen-collapseOne" aria-expanded="true"
+                        aria-controls="panelsStayOpen-collapseOne">
+                    User information
+                </button>
+            </h2>
+            <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse show"
+                 aria-labelledby="panelsStayOpen-headingOne">
+                <div class="accordion-body">
+                    <div class="row mx-0">
+                        <div class="col-2"></div>
+                        <div class="col-4">
                             <div class="card-body">
-                            <h5 class="card-title">{{ item['name'] }}</h5>
-                            <p class="card-text">State: {{ item['state'] }}</p>
-                                <div class="text-center">
-                            <a href="#" class="btn btn-secondary">Buy</a>
-                            <a href="#" class="btn btn-secondary">Sell</a>
-                                </div>
-                          </div>
+                                <h5 class="card-title">{{ user['username'] }}</h5>
+                                <p class="card-text">Username</p>
+                            </div>
+
+                            <div class="card-body">
+                                <h5 class="card-title">{{ user['email'] }}</h5>
+                                <p class="card-text">Email</p>
+                            </div>
+
+                            <div class="card-body">
+                                <h5 class="card-title">{{ user['created_at'] }}</h5>
+                                <p class="card-text">Created at</p>
+                            </div>
+
                         </div>
-                    {% endfor %}
+                        <div class="col-6 align-self-center">
+                            <div class="card-body">
+                                <h5 class="card-title">{{ in_house }}$</h5>
+                                <p class="card-text">In-house</p>
+                            </div>
+                        </div>
+                        <div class="col-1"></div>
                     </div>
-                {% endfor %}
+                </div>
+            </div>
+        </div>
+        <div class="accordion-item">
+            <h2 class="accordion-header" id="panelsStayOpen-headingTwo">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                        data-bs-target="#panelsStayOpen-collapseTwo" aria-expanded="false"
+                        aria-controls="panelsStayOpen-collapseTwo">
+                    User Wallet
+                </button>
+            </h2>
+            <div id="panelsStayOpen-collapseTwo" class="accordion-collapse collapse"
+                 aria-labelledby="panelsStayOpen-headingTwo">
+                <div class="accordion-body">
+                    <div class="row mx-0">
+
+                        <div class="col-12 col-lg-6 px-lg-0 col-xl-4">
+
+                            <ul class="list-group list-group-flush">
+                                {{  build_list_item(0, wallet, images) }}
+                                {{  build_list_item(1, wallet, images) }}
+                                {{  build_list_item(2, wallet, images) }}
+                                {{  build_list_item(3, wallet, images) }}
+                                {{  build_list_item(4, wallet, images) }}
+                            </ul>
+
+                        </div>
+                        <div class="col-12 col-lg-6 px-lg-0 col-xl-4">
+
+                            <ul class="list-group list-group-flush">
+                                {{  build_list_item(5, wallet, images) }}
+                                {{  build_list_item(6, wallet, images) }}
+                                {{  build_list_item(7, wallet, images) }}
+                                {{  build_list_item(8, wallet, images) }}
+                                {{  build_list_item(9, wallet, images) }}
+                            </ul>
+
+                        </div>
+                        <div class="col-12 col-lg-12 px-lg-0 col-xl-4">
+
+                            <ul class="list-group list-group-flush">
+                                {{  build_list_item(10, wallet, images) }}
+                                {{  build_list_item(11, wallet, images) }}
+                                {{  build_list_item(12, wallet, images) }}
+                                {{  build_list_item(13, wallet, images) }}
+                                {{  build_list_item(14, wallet, images) }}
+                            </ul>
+                        </div>
+
+                    </div>
+
+
+                </div>
+            </div>
+        </div>
+        <div class="accordion-item">
+            <h2 class="accordion-header" id="panelsStayOpen-headingThree">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                        data-bs-target="#panelsStayOpen-collapseThree" aria-expanded="false"
+                        aria-controls="panelsStayOpen-collapseThree">
+                    Transaction history
+                </button>
+            </h2>
+            <div id="panelsStayOpen-collapseThree" class="accordion-collapse collapse"
+                 aria-labelledby="panelsStayOpen-headingThree">
+                <div class="accordion-body">
+                    <div class="row mx-0">
+                        <div class="col-12">
+
+                            <table class="table">
+                                <thead>
+                                <tr>
+                                    <th scope="col">#</th>
+                                    <th scope="col">Name</th>
+                                    <th class="d-none d-md-table-cell" scope="col">Code</th>
+                                    <th scope="col">Amount</th>
+                                    <th scope="col">Price</th>
+                                    <th scope="col">Cost</th>
+                                    <th class="d-none d-md-table-cell" scope="col">Type</th>
+                                    <th scope="col">Date</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {% for item in transaction_history %}
+                                    <tr>
+                                        <th scope="row">{{ item['id'] }}</th>
+                                        <td>{{ item['name'] }}</td>
+                                        <td class="d-none d-md-table-cell">{{ item['code'] }}</td>
+                                        <td>{{ item['amount'] }}</td>
+                                        <td>{{ item['price_at_transaction'] }}$</td>
+                                        <td>{{ item['total_cost'] }}$</td>
+                                        <td class="d-none d-md-table-cell">{{ item['operation_type'] }}</td>
+                                        <td>{{ item['transaction_date'] }}</td>
+                                    </tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
+
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
-
-
 
 {% endblock %}
 

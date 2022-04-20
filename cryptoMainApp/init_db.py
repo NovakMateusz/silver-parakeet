@@ -35,9 +35,15 @@ def create_wallet_entries(database, wallet_entries_model):
 
 
 def create_transaction_history(database, transaction_history_model):
-    item = transaction_history_model(operation_type='sell', amount=12.4, current_price=24.2, currency_id=4, wallet_id=1)
+    item = transaction_history_model(operation_type='sell', amount=12.4, current_price=23.2, currency_id=4, wallet_id=1)
     database.session.add(item)
     item = transaction_history_model(operation_type='buy', amount=12.4, current_price=24.2, currency_id=4, wallet_id=1)
+    database.session.add(item)
+    item = transaction_history_model(operation_type='buy', amount=122.4, current_price=24.2, currency_id=1, wallet_id=1)
+    database.session.add(item)
+    item = transaction_history_model(operation_type='buy', amount=144.4, current_price=24.2, currency_id=2, wallet_id=1)
+    database.session.add(item)
+    item = transaction_history_model(operation_type='sell', amount=1211.4, current_price=24.2, currency_id=2, wallet_id=1)
     database.session.add(item)
     database.session.commit()
 
