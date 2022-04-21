@@ -26,24 +26,24 @@
             <ul class="navbar-nav">
                 {% if current_user.is_authenticated %}
                     <li>
-                        <a class="nav-link" href="{{ url_for('trading.overview_view') }}">Handel</a>
+                        <a class="nav-link" href="{{ url_for('trading.overview_view') }}">Trade</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ url_for('user.account_view') }}">Konto</a>
+                        <a class="nav-link" href="{{ url_for('user.account_view') }}">Account</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ url_for('auth.logout_view') }}">Wyloguj</a>
+                        <a class="nav-link" href="{{ url_for('auth.logout_view') }}">Logout</a>
                     </li>
                 {% else %}
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ url_for('auth.login_view') }}">Zaloguj</a>
+                        <a class="nav-link" href="{{ url_for('auth.login_view') }}">Login</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ url_for('auth.register_view') }}">Zarejestruj</a>
+                        <a class="nav-link" href="{{ url_for('auth.register_view') }}">Register</a>
                     </li>
                 {% endif %}
                 <li class="nav-item">
-                    <a class="nav-link" href="{{ url_for('pages.contact_view') }}">Kontakt</a>
+                    <a class="nav-link" href="{{ url_for('pages.contact_view') }}">Contact</a>
                 </li>
             </ul>
 
