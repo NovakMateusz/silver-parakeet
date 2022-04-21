@@ -18,3 +18,6 @@ class Settings:
         self.MAIL_PASSWORD = os.environ.get('MAIL_PASSWORD')
         if not self.MAIL_PASSWORD:
             raise AttributeError('Missing MAIL_PASSWORD value')
+
+        self.REST_API_KEY = os.environ.get('REST_API_KEY')
+        self.REST_API_URL = os.environ.get('REST_API_URL', 'http://localhost:5000/v1')

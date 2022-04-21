@@ -13,7 +13,7 @@ def code_length_validator(value: List[str]) -> str:
 
 def known_codes_validator(value: str) -> str:
     if not (value in CODE_NAME_MAPPING.keys() or value == 'ALL'):
-        raise ValueError('COde %s not supported' % value)
+        raise ValueError('Code %s not supported' % value)
     return value
 
 

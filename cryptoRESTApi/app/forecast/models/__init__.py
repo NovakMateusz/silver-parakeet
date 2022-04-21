@@ -5,7 +5,7 @@ from pydantic import BaseModel
 from app.models import InputModel, ErrorResponseModel
 
 __all__ = ['PredictionErrorResponseModel', 'PredictionInputModel', 'PredictionResponseModel',
-           'CumulativePredictionResponseModel']
+           'CumulativePredictionResponseModel', 'NextDayPredictionResponseModel']
 
 
 class PredictionInputModel(InputModel):
@@ -24,3 +24,10 @@ class PredictionResponseModel(BaseModel):
 
 class CumulativePredictionResponseModel(BaseModel):
     predictions: List[PredictionResponseModel]
+
+
+class NextDayPredictionResponseModel(BaseModel):
+    name: str
+    code: str
+    date: str
+    prediction: float

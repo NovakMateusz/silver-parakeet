@@ -1,0 +1,136 @@
+{% extends "base.html" %}
+{% block content_block %}
+    <div class="container mt-3">
+        <div class="row">
+            <div class="col-2 my-5">
+                <img class="card-img-top"
+                     src="{{ url_for('static', filename=output_model['filename']) }}"
+                     alt="{{ output_model['name'] }} logo"
+                     style="width: 6rem; height: 6rem;">
+            </div>
+            <div class="col-10">
+                <div class="row">
+                    <div class="col-3">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ output_model['name'] }}</h5>
+                            <p class="card-text">Name</p>
+                        </div>
+                        <div class="card-body">
+                            <h5 class="card-title">{{ output_model['code'] }}</h5>
+                            <p class="card-text">Code</p>
+                        </div>
+                    </div>
+                    <div class="col-3">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ output_model['exchange_rate'] }}$</h5>
+                            <p class="card-text">Current exchange rate</p>
+                        </div>
+                        <div class="card-body">
+                            <h5 class="card-title">{{ output_model['next_day_prediction'] }}$</h5>
+                            <p class="card-text">Prediction for tomorrow</p>
+                        </div>
+                    </div>
+                    <div class="col-3 my-5">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ output_model['own_coins'] }}</h5>
+                            <p class="card-text">Owned coins</p>
+                        </div>
+                    </div>
+                    <div class="col-3">
+
+
+                        <form method="POST"
+                              action="{{ url_for('trading.currency_info_view', code=output_model['code']) }}">
+                            {{ form.csrf_token }}
+
+                            <div class="row">
+                                <div class="col">
+                                    <div class="mb-1">
+                                        {{ form.name.label(class="form-label") }}
+                                        {{ form.name(class="form-control", disabled=True) }}
+                                    </div>
+                                </div>
+                                <div class="col">
+                                    <div class="mb-1">
+                                        {{ form.code.label(class="form-label") }}
+                                        {{ form.code(class="form-control", disabled=True) }}
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="mb-1">
+                                {{ form.price.label(class="form-label") }}
+                                {{ form.price(class="form-control", disabled=True) }}
+                            </div>
+
+                            <div class="mb-1">
+                                {{ form.amount.label(class="form-label") }}
+                                {{ form.amount(class="form-control") }}
+                            </div>
+
+                            {% for subfield in form.type %}
+                                <div class="form-check form-check-inline">
+                                    {{ subfield.label(class="form-check-label") }}
+                                    {{ subfield(class="form-check-input") }}
+                                </div>
+                            {% endfor %}
+
+                            <div class="mb-1">
+                                {% with messages = get_flashed_messages() %}
+                                    {% if messages %}
+                                        <div class="alert alert-danger" role="alert">
+                                            {% for message in messages %}
+                                                {{ message }}
+                                            {% endfor %}
+                                        </div>
+                                    {% endif %}
+                                {% endwith %}
+                            </div>
+
+                            <div class="text-center">
+                                <button type="submit" class="btn btn-secondary">Submit</button>
+                            </div>
+                        </form>
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <canvas id="myChart"></canvas>
+        </div>
+
+    </div>
+
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        const labels =
+        {{ output_model['prediction']['labels']|safe }}
+        const data = {
+            labels: labels,
+            datasets: [{
+                label: '{{ output_model['name'] }}',
+                data: {{ output_model['prediction']['values']|safe }},
+                borderColor: 'rgb(139, 115, 86)',
+                tension: 0.1
+            }]
+        };
+
+        const config = {
+            type: 'line',
+            data: data,
+            options: {}
+        };
+    </script>
+
+    <script>
+        const myChart = new Chart(
+            document.getElementById('myChart'),
+            config
+        );
+    </script>
+
+
+{% endblock %}
