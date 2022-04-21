@@ -41,14 +41,34 @@ async def currency_state_view(request: Request):
         async with aiohttp_session.get(url=request.app.config.EXTERNAL_RESOURCES_URL, params=parameters) as response:
             if response.status == 200:
                 json_response = await response.json()
+                logger.info(
+                    "[Exchange] Response for %s code: %s" % (input_model.code, json_response))
                 json_response = json_response['Realtime Currency Exchange Rate']
-                external_service_input_model = ExternalServiceInputModel(
-                    code=json_response[ExternalServiceResponseFieldsName.from_currency_code.value],
-                    name=json_response[ExternalServiceResponseFieldsName.from_currency_name.value],
-                    exchange_rate=json_response[ExternalServiceResponseFieldsName.exchange_rate.value])
+
+                name = json_response[ExternalServiceResponseFieldsName.from_currency_name.value]
+                code = json_response[ExternalServiceResponseFieldsName.from_currency_code.value]
+                exchange_rate = json_response[ExternalServiceResponseFieldsName.exchange_rate.value]
+                if name:
+                    external_service_input_model = ExternalServiceInputModel(
+                        code=code,
+                        name=name,
+                        exchange_rate=exchange_rate)
+                else:
+                    external_service_input_model = ExternalServiceInputModel(
+                        code=code,
+                        name=code,
+                        exchange_rate=exchange_rate)
 
                 logger.info("[Exchange] Caching new value for %s" % input_model.code)
                 await cache.set(input_model.code, external_service_input_model)
+            else:
+                response_text = await response.text()
+                logger.error("[Exchange] incorrect status code %d, response from the service %s" % response.status,
+                             response_text)
+                response_model = ExchangeErrorResponseModel(endpoint=request.url,
+                                                            message="Internal Server Error",
+                                                            status_code=500)
+                return json(response_model.dict(), status=response_model.status_code)
     except TimeoutError as timeout_error:
         logger.error("[Exchange] TimeoutError: %s", str(timeout_error))
         response_model = ExchangeErrorResponseModel(endpoint=request.url,
@@ -73,6 +93,11 @@ async def currency_state_view(request: Request):
                                                     message="Internal Server Error",
                                                     status_code=500)
         return json(response_model.dict(), status=response_model.status_code)
+    except KeyError as key_error:
+        logger.error("[Exchange] ClientError: %s", str(key_error))
+        response_model = ExchangeErrorResponseModel(endpoint=request.url,
+                                                    message="Internal Server Error",
+                                                    status_code=500)
+        return json(response_model.dict(), status=response_model.status_code)
     else:
         return json(external_service_input_model.dict())
-
