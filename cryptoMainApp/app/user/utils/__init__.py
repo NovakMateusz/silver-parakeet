@@ -1,4 +1,3 @@
-from datetime import datetime
 from typing import Dict, Set, List
 
 from app.auth.models import User
@@ -22,14 +21,14 @@ class UserDataModel:
 
     def _get_wallet_info(self) -> None:
         temp_dict: Dict = dict()
-        temp_dict['in-house']: float = self.wallet_model.inhouse_currency
+        temp_dict['in-house']: float = round(self.wallet_model.inhouse_currency, 3)
         temp_dict['crypto']: List = []
         all_currencies_set: Set = set(NAME_CODE_MAPPING.keys())
         for crypto in self.wallet_model.currencies:
             all_currencies_set.remove(crypto.currency.name)
             temp_dict['crypto'].append(
                 {
-                    'amount': crypto.amount,
+                    'amount': round(crypto.amount, 3),
                     'name': crypto.currency.name,
                     'code': crypto.currency.code
                 }
@@ -70,7 +69,4 @@ class UserDataModel:
         return self.output
 
 
-def prepare_images_links() -> Dict:
-    return {
-        name: f'images/logos/{name.lower()}.svg' for name in NAME_CODE_MAPPING.keys()
-    }
+
