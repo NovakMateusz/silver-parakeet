@@ -1,17 +1,16 @@
-from typing import Dict, List
+from typing import Dict
 
 from app.utils.constans import NAME_CODE_MAPPING
 
 
-def chunks(items: List, n: int):
-    for i in range(0, len(items), n):
-        yield items[i:i + n]
+def prepare_single_image_link(name: str) -> str:
+    return f'images/logos/{name.lower()}.svg'
 
 
-def prepare_items(split: int = 5) -> List[List[Dict]]:
-    items: List[Dict] = [{'name': key, 'state': 0.0, 'filename': f'images/logos/{key.lower()}.svg'} for key
-                         in NAME_CODE_MAPPING.keys()]
-    result: List[List[Dict]] = []
-    for item in chunks(items, split):
-        result.append(item)
-    return result
+def prepare_images_links() -> Dict:
+    return {
+        name: prepare_single_image_link(name) for name in NAME_CODE_MAPPING.keys()
+    }
+
+
+
