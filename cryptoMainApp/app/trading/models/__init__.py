@@ -58,6 +58,7 @@ class TransactionHistory(db.Model):
     date = db.Column(db.DateTime, default=datetime.now)
     amount = db.Column(db.Float)
     current_price = db.Column(db.Float)
+    total_cost = db.Column(db.Float)
 
     currency_id = db.Column(db.Integer, db.ForeignKey('currency.id'))
     wallet_id = db.Column(db.Integer, db.ForeignKey('wallet.id'))
@@ -73,6 +74,7 @@ class TransactionHistory(db.Model):
         self.current_price = current_price if current_price > 0 \
             else self._raise(AttributeError('Value %f can not be less then 0 ' % current_price))
 
+        self.total_cost = self.amount * current_price
         self.currency_id = currency_id
         self.wallet_id = wallet_id
 
