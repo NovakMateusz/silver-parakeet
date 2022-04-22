@@ -9,6 +9,7 @@ from app.auth.forms import LoginForm, RegistrationForm
 from app.auth import auth_blueprint
 from app.auth.models import User, AccountActivationLink
 from app.extensions import db, login_manager, mail
+from app.trading.models import Wallet
 
 
 def send_email(activation_key: str, recipient: str):
@@ -100,7 +101,10 @@ def account_activation_view(activation_id):
     if activation_link and not activation_link.user.active:
         activation_link.user.active = True
         db.session.add(activation_link)
+        wallet = Wallet(inhouse_currency=0, user_id=activation_link.user.id)
+        db.session.add(wallet)
         db.session.commit()
+
         return f'<h1> User {activation_link.user.public_id} activated </h1>'
     else:
         return '<h1> Problem </h1>'

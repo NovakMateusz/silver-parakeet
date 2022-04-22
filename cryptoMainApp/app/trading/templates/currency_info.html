@@ -26,7 +26,17 @@
                             <p class="card-text">Current exchange rate</p>
                         </div>
                         <div class="card-body">
-                            <h5 class="card-title">{{ output_model['next_day_prediction'] }}$</h5>
+                            {% if output_model['exchange_rate'] > output_model['next_day_prediction'] %}
+                                <span class="text-danger">
+                                    <h5 class="card-title">{{ output_model['next_day_prediction'] }}$</h5>
+                                </span>
+                            {% elif output_model['exchange_rate'] < output_model['next_day_prediction'] %}
+                                <span class="text-success">
+                                    <h5 class="card-title">{{ output_model['next_day_prediction'] }}$</h5>
+                                </span>
+                            {% else %}
+                                <h5 class="card-title">{{ output_model['next_day_prediction'] }}$</h5>
+                            {% endif %}
                             <p class="card-text">Prediction for tomorrow</p>
                         </div>
                     </div>

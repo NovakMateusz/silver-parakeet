@@ -28,6 +28,7 @@ def incorrect_code_view():
 @trading_blueprint.route('/<string:code>', methods=['POST', 'GET'])
 @login_required
 def currency_info_view(code: str):
+    # TO REFORMAT
     searcher = current_app.config['searcher']
     currency_model = CurrencyDataModel(searcher, code)
     output_model: Dict = currency_model.prepare_data()
@@ -39,6 +40,8 @@ def currency_info_view(code: str):
     wallet_entries = WalletEntries.query.filter_by(wallet_id=wallet.id).filter_by(currency_id=currency.id).first()
     if wallet_entries:
         output_model['own_coins'] = wallet_entries.amount
+    else:
+        output_model['own_coins'] = 0
 
     transaction_form = TransactionForm()
     transaction_form.name.data = output_model['name']
@@ -66,8 +69,8 @@ def currency_info_view(code: str):
 
             if not wallet_entries:
                 wallet_entries = WalletEntries(wallet_id=wallet.id, currency_id=currency.id, amount=0.0)
-            else:
-                wallet_entries.amount += amount
+
+            wallet_entries.amount += amount
 
         else:
             if not wallet_entries or wallet_entries.amount < amount:
@@ -88,6 +91,7 @@ def currency_info_view(code: str):
         db.session.add(wallet)
         db.session.commit()
         output_model['own_coins'] = wallet_entries.amount
+        transaction_form.amount.data = 0
 
     else:
         transaction_form.amount.data = 0.0

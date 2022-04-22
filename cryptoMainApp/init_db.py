@@ -48,9 +48,19 @@ def create_transaction_history(database, transaction_history_model):
     database.session.commit()
 
 
+def create_top_up_history(database, wallet_top_up_model):
+    item = wallet_top_up_model(operation_type='withdraw', amount=12.4, wallet_id=1)
+    database.session.add(item)
+    item = wallet_top_up_model(operation_type='deposit', amount=12.4, wallet_id=1)
+    database.session.add(item)
+    item = wallet_top_up_model(operation_type='deposit', amount=12.4, wallet_id=1)
+    database.session.add(item)
+    database.session.commit()
+
+
 if __name__ == '__main__':
     from app.auth.models import User
-    from app.trading.models import Currency, TransactionHistory, Wallet, WalletEntries
+    from app.trading.models import Currency, TransactionHistory, Wallet, WalletEntries, WalletTopUp
     os.environ.setdefault('MAIL_USERNAME', "tempUser")
     os.environ.setdefault('MAIL_PASSWORD', "tempPassword")
     app = create_app()
@@ -61,3 +71,4 @@ if __name__ == '__main__':
         creat_wallet_for_admin(db, Wallet)
         create_wallet_entries(db, WalletEntries)
         create_transaction_history(db, TransactionHistory)
+        create_top_up_history(db, WalletTopUp)
