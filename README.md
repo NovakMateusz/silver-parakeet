@@ -5,7 +5,7 @@
 ### Projekt zaliczeniowy przedmiot Inżyniera Oprogramowania
 
 ### Opis
-Głównym celem aplikacji jest umożliwienie użytkownikowi handlu krypto walutami. Silver Parakeet korzystając z zewnętrznych serwisów będzie przedstawiać zestawianie danych poświęconych kursom za ostatni miesiąc w formie dogodnych wykresów. Aby można było korzystać z aplikacji, użytkownik będzie musiał stworzyć konto, które powiązane będzie z portfelem, który przechowywać będzie zasoby. Bazując na przeprowadzonych zakupach użytkownik będzie miał dostęp do rankingu swoich inwestycji.  
+Głównym celem aplikacji jest umożliwienie użytkownikowi handlu krypto walutami. Silver Parakeet korzystając z zewnętrznych serwisów będzie przedstawiać zestawianie danych poświęconych kursom za ostatni miesiąc w formie dogodnych wykresów. Aby można było korzystać z aplikacji, użytkownik będzie musiał stworzyć konto, które powiązane będzie z portfelem, który przechowywać będzie zasoby. Bazując na przeprowadzonych zakupach użytkownik będzie miał dostęp do rankingu swoich inwestycji.
 
 ### Zespół:
 - [Szymon Błaszczyk](https://github.com/gaser3)
@@ -19,6 +19,13 @@ Głównym celem aplikacji jest umożliwienie użytkownikowi handlu krypto waluta
 - JavaScript
 - Docker
 - SQLite
+
+### Docker hub
+| Nazwa       | Wersja | Link                                                              |
+|-------------|--------|-------------------------------------------------------------------|
+| crypto-main | 1.0    | https://hub.docker.com/repository/docker/novakmateusz/crypto-main |
+| crypto-rest | 1.0    | https://hub.docker.com/repository/docker/novakmateusz/crypto-rest |
+
 
 ### Diagram bazy danych
 ![Diagram bazy danych](docs/databaseDiagram.png)
@@ -43,13 +50,13 @@ Głównym celem aplikacji jest umożliwienie użytkownikowi handlu krypto waluta
 *Token nie jest trwały i ulega przedawnieniu, dlatego przez uruchomieniem aplikacji należy pobrać nowy ze strony [https://www.dropbox.com/developers/](https://www.dropbox.com/developers/)
 
 ### Jak uruchomić
-#### 1. Przy wykorzystaniu Docker  
+#### 1. Przy wykorzystaniu Docker
 Wymagania wstępne:
 - Zainstaluj oprogramowanie [Docker Desktop](https://docs.docker.com/desktop/)
 
 1. Z głównego folderu przejdź do cryptoMainApp i zbuduj obraz
-```console  
-docker build -t crypto-main:latest . 
+```console
+docker build -t crypto-main:latest .
 ```
 2. Z głównego folderu przejdź do cryptoRESTApi i zbuduj obraz
 ```console
@@ -59,9 +66,3 @@ docker build -t crypto-rest:latest .
 ```console
 docker-compose up -d
 ```
-
-#### 2. Przy wykorzystaniu Python  
-Wymagania wstępne:
-- Zainstaluj [Python](https://www.python.org/downloads/) w wersji <= 3.9
-
-TO DO
