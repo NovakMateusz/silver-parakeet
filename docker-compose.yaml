@@ -7,20 +7,32 @@ services:
             - APP_NAME=SilverParakeetREST
             - API_KEY=${API_KEY}
             - EXTERNAL_RESOURCES_KEY=${EXTERNAL_RESOURCES_KEY}
+            - EXTERNAL_RESOURCES_UR=${EXTERNAL_RESOURCES_UR}
             - DROPBOX_API_KEY=${DROPBOX_API_KEY}
+            - MODELS_DIRECTORY=${MODELS_DIRECTORY}
+            - MODELS_HASH=${MODELS_HASH}
         ports:
-            - 5000:8000
+            - "8000:8000"
+        networks:
+            - local
     silver-parakeet-Main:
         image: crypto-main:latest
         container_name: 'SilverParakeetMain'
         ports:
-            - 8000:8000
+            - "5000:5000"
+        networks:
+            - local
         environment:
             - SECRET_KEY=${SECRET_KEY}
             - API_KEY=${API_KEY}
+            - REST_API_KEY=${API_KEY}
+            - REST_API_URL=http://silver-parakeet-REST:8000/v1
             - SQLALCHEMY_DATABASE_URI=${SQLALCHEMY_DATABASE_URI}
             - MAIL_SERVER=${MAIL_SERVER}
             - MAIL_PORT=${MAIL_PORT}
             - MAIL_USE_SSL=${MAIL_USE_SSL}
             - MAIL_USERNAME=${MAIL_USERNAME}
             - MAIL_PASSWORD=${MAIL_PASSWORD}
+networks:
+  local:
+    driver: bridge
