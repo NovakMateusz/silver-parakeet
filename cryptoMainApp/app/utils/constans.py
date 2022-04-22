@@ -38,3 +38,5 @@ NAME_CODE_MAPPING = {
 }
 
 ALLOWED_OPERATION_TYPES = ['sell', 'buy']
+
+ALLOWED_OPERATION_TYPES_IN_TOP_USP = ['withdraw', 'withdraw_all', 'deposit']

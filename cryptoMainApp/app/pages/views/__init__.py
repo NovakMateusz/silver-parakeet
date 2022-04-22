@@ -14,9 +14,6 @@ def home_view():
 @pages_blueprint.route('/contact', methods=['POST', 'GET'])
 def contact_view():
     message_form = MessageForm()
-    if current_user.is_authenticated:
-        message_form.email.data = current_user.email
-
     if message_form.validate_on_submit():
         name = request.form.get('name')
         surname = request.form.get('surname')
@@ -27,4 +24,6 @@ def contact_view():
 
         flash('Email has been sent, thank you!')
         message_form.reset_fields()
+    if current_user.is_authenticated:
+        message_form.email.data = current_user.email
     return render_template('contact.html', form=message_form)

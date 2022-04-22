@@ -1,0 +1,169 @@
+{% extends "base.html" %}
+
+{% block content_block %}
+
+    {% set top_ups_history = output_model['top_ups'] %}
+    {% set state = output_model['state'] %}
+
+    <div class="accordion" id="accordionPanelsStayOpenExample">
+        <div class="accordion-item">
+            <h2 class="accordion-header" id="panelsStayOpen-headingOne">
+                <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                        data-bs-target="#panelsStayOpen-collapseOne" aria-expanded="true"
+                        aria-controls="panelsStayOpen-collapseOne">
+                    <b>User information</b>
+                </button>
+            </h2>
+            <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse show"
+                 aria-labelledby="panelsStayOpen-headingOne">
+                <div class="accordion-body">
+                    <div class="row mx-0">
+                        <div class="col-3"></div>
+                        <div class="col-3">
+                            <div class="card-body mt-5">
+                                <h5 class="card-title">{{ state }}$</h5>
+                                <p class="card-text">Current state</p>
+                            </div>
+                        </div>
+                        <div class="col-4">
+                            <form method="POST"
+                                  action="{{ url_for('user.balance_view') }}">
+                                {{ form.csrf_token }}
+
+                                <div class="mb-1">
+                                    {{ form.card_number.label(class="form-label") }}
+                                    {{ form.card_number(class="form-control") }}
+                                </div>
+
+                                <div class="mb-1">
+                                    <div class="row">
+                                        <div class="col-4">
+                                            {{ form.cvc_number.label(class="form-label") }}
+                                            {{ form.cvc_number(class="form-control") }}
+                                        </div>
+                                        <div class="col-8">
+                                            {{ form.amount.label(class="form-label") }}
+                                            {{ form.amount(class="form-control") }}
+                                        </div>
+                                    </div>
+                                </div>
+
+                                {% for subfield in form.type %}
+                                    <div class="form-check form-check-inline">
+                                        {{ subfield.label(class="form-check-label") }}
+                                        {{ subfield(class="form-check-input") }}
+                                    </div>
+                                {% endfor %}
+
+                                <div class="mb-1">
+                                    {% with messages = get_flashed_messages() %}
+                                        {% if messages %}
+                                            <div class="alert alert-danger" role="alert">
+                                                {% for message in messages %}
+                                                    {{ message }}
+                                                {% endfor %}
+                                            </div>
+                                        {% endif %}
+                                    {% endwith %}
+                                </div>
+
+                                <div class="text-center">
+                                    <button type="submit" class="btn btn-secondary"> Submit</button>
+                                </div>
+                            </form>
+
+                        </div>
+                        <div class="col-2"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        {#        <div class="accordion-item">#}
+        {#            <h2 class="accordion-header" id="panelsStayOpen-headingOne">#}
+        {#                <button class="accordion-button" type="button" data-bs-toggle="collapse"#}
+        {#                        data-bs-target="#panelsStayOpen-collapseOne" aria-expanded="true"#}
+        {#                        aria-controls="panelsStayOpen-collapseOne">#}
+        {#                    <b>User information</b>#}
+        {#                </button>#}
+        {#            </h2>#}
+        {#            <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse show"#}
+        {#                 aria-labelledby="panelsStayOpen-headingOne">#}
+        {#                <div class="accordion-body">#}
+        {#                    <div class="row mx-0">#}
+        {#                        <div class="col-2"></div>#}
+        {#                        <div class="col-4">#}
+        {#                            <div class="card-body">#}
+        {#                                <h5 class="card-title">{{ user['username'] }}</h5>#}
+        {#                                <p class="card-text">Username</p>#}
+        {#                            </div>#}
+        {##}
+        {#                            <div class="card-body">#}
+        {#                                <h5 class="card-title">{{ user['email'] }}</h5>#}
+        {#                                <p class="card-text">Email</p>#}
+        {#                            </div>#}
+        {##}
+        {#                            <div class="card-body">#}
+        {#                                <h5 class="card-title">{{ user['created_at'] }}</h5>#}
+        {#                                <p class="card-text">Created at</p>#}
+        {#                            </div>#}
+        {##}
+        {#                        </div>#}
+        {#                        <div class="col-6 align-self-center">#}
+        {#                            <div class="card-body">#}
+        {#                                <h5 class="card-title">{{ in_house }}$</h5>#}
+        {#                                <p class="card-text">In-house</p>#}
+        {#                                <a class="btn btn-secondary btn-sm">Withdraw</a>#}
+        {#                                <a class="btn btn-secondary btn-sm">Deposit</a>#}
+        {#                            </div>#}
+        {#                        </div>#}
+        {#                        <div class="col-1"></div>#}
+        {#                    </div>#}
+        {#                </div>#}
+        {#            </div>#}
+        {#        </div>#}
+        <div class="accordion-item">
+            <h2 class="accordion-header" id="panelsStayOpen-headingThree">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                        data-bs-target="#panelsStayOpen-collapseThree" aria-expanded="false"
+                        aria-controls="panelsStayOpen-collapseThree">
+                    <b>Transaction history</b>
+                </button>
+            </h2>
+            <div id="panelsStayOpen-collapseThree" class="accordion-collapse collapse"
+                 aria-labelledby="panelsStayOpen-headingThree">
+                <div class="accordion-body">
+                    <div class="row mx-0">
+                        <div class="col-12">
+
+                            <table class="table">
+                                <thead>
+                                <tr>
+                                    <th scope="col">#</th>
+                                    <th scope="col">Amount</th>
+                                    <th scope="col">Type</th>
+                                    <th scope="col">Date</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {% for item in top_ups_history %}
+                                    <tr>
+                                        <th scope="row">{{ item['id'] }}</th>
+                                        <td>{{ item['amount'] }}</td>
+                                        <td>{{ item['operation_type'] }}</td>
+                                        <td>{{ item['transaction_date'] }}</td>
+                                    </tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+{% endblock %}

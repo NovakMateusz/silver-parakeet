@@ -14,4 +14,4 @@ RUN . venv/bin/activate && python3 init_db.py
 EXPOSE 8000
 ENV PATH /venv/bin:$PATH
 
-CMD ["venv/bin/python3", "-m" ,"uvicorn", "--factory", "app:create_app", "--host", "0.0.0.0", "--port", "8000", "--interface", "wsgi"]
+CMD ["venv/bin/python3", "-m" ,"uvicorn", "--factory", "app:create_app", "--host", "0.0.0.0", "--port", "5000", "--interface", "wsgi"]
