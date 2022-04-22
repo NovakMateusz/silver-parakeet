@@ -1,7 +1,7 @@
 from datetime import datetime
 
 from app.extensions import db
-from app.utils.constans import ALLOWED_OPERATION_TYPES
+from app.utils.constans import ALLOWED_OPERATION_TYPES, ALLOWED_OPERATION_TYPES_IN_TOP_USP
 
 
 __all__ = ['Currency', 'TransactionHistory', 'Wallet', 'WalletEntries', 'WalletTopUp']
@@ -22,9 +22,7 @@ class Wallet(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     inhouse_currency = db.Column(db.Float)
-
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), unique=True)
-
     transaction_history = db.relationship('TransactionHistory', backref='wallet')
     wallet_top_up = db.relationship('WalletTopUp', backref='wallet')
     currencies = db.relationship('WalletEntries')
@@ -46,8 +44,21 @@ class WalletTopUp(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     date = db.Column(db.DateTime, default=datetime.now)
     amount = db.Column(db.Float)
-
+    operation_type = db.Column(db.String(10))
     waller_id = db.Column(db.Integer, db.ForeignKey('wallet.id'))
+
+    def __init__(self, operation_type: str, amount: float, wallet_id: int):
+        operation = operation_type.lower()
+        self.operation_type = operation if operation in ALLOWED_OPERATION_TYPES_IN_TOP_USP \
+            else self._raise(AttributeError('Unallowed operation type %s' % operation_type))
+
+        self.amount = amount if amount > 0 \
+            else self._raise(AttributeError('Value %f can not be less then 0 ' % operation_type))
+
+        self.waller_id = wallet_id
+
+    @staticmethod
+    def _raise(exception: Exception): raise exception
 
 
 class TransactionHistory(db.Model):
