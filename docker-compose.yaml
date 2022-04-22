@@ -1,7 +1,7 @@
 version: '3'
 services:
     silver-parakeet-REST:
-        image: crypto-rest:latest
+        image: novakmateusz/crypto-rest:1.0
         container_name: 'SilverParakeetREST'
         environment:
             - APP_NAME=SilverParakeetREST
@@ -16,7 +16,7 @@ services:
         networks:
             - local
     silver-parakeet-Main:
-        image: crypto-main:latest
+        image: novakmateusz/crypto-main:1.0
         container_name: 'SilverParakeetMain'
         ports:
             - "5000:5000"
