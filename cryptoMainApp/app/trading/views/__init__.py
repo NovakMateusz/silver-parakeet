@@ -30,7 +30,10 @@ def incorrect_code_view():
 def currency_info_view(code: str):
     # TO REFORMAT
     searcher = current_app.config['searcher']
-    currency_model = CurrencyDataModel(searcher, code)
+    try:
+        currency_model = CurrencyDataModel(searcher, code)
+    except TypeError as error:
+        return redirect(url_for('trading.incorrect_code_view'))
     output_model: Dict = currency_model.prepare_data()
 
     user = current_user
@@ -96,3 +99,8 @@ def currency_info_view(code: str):
     else:
         transaction_form.amount.data = 0.0
     return render_template('currency_info.html', output_model=output_model, form=transaction_form)
+
+
+@trading_blueprint.errorhandler(Exception)
+def trading_blueprint_exception(exception):
+    return render_template('trading_exception.html')

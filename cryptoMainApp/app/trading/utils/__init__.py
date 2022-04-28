@@ -37,6 +37,8 @@ class OverviewDataModel:
 class CurrencyDataModel:
     def __init__(self, searcher: Searcher, code: str):
         self.searcher = searcher
+        if code not in CODE_NAME_MAPPING.keys():
+            raise TypeError('Code %s is unsupported' % code)
         self.code = code
 
     def _get_next_day_prediction(self) -> float:

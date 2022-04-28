@@ -35,7 +35,6 @@ async def currency_state_view(request: Request):
                   'from_currency': input_model.code,
                   'to_currency': 'USD',
                   'apikey': request.app.config.EXTERNAL_RESOURCES_KEY}
-
     logger.info("[Exchange] No cache value for %s, sending new request to external resources" % input_model.code)
     try:
         async with aiohttp_session.get(url=request.app.config.EXTERNAL_RESOURCES_URL, params=parameters) as response:
@@ -43,7 +42,15 @@ async def currency_state_view(request: Request):
                 json_response = await response.json()
                 logger.info(
                     "[Exchange] Response for %s code: %s" % (input_model.code, json_response))
-                json_response = json_response['Realtime Currency Exchange Rate']
+                try:
+                    json_response = json_response[ExternalServiceResponseFieldsName.main_key]
+                except KeyError:
+                    logger.error("[Exchange] KeyError: %s. Exceeded number of request to external REST API",
+                                 str(ExternalServiceResponseFieldsName.main_key),)
+                    response_model = ExchangeErrorResponseModel(endpoint=request.url,
+                                                                message="Service Unavailable",
+                                                                status_code=503)
+                    return json(response_model.dict(), status=response_model.status_code)
 
                 name = json_response[ExternalServiceResponseFieldsName.from_currency_name.value]
                 code = json_response[ExternalServiceResponseFieldsName.from_currency_code.value]
