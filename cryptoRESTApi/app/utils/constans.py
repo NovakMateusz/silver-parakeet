@@ -40,6 +40,7 @@ NAME_CODE_MAPPING = {
 
 
 class ExternalServiceResponseFieldsName(Enum):
+    main_key = 'Realtime Currency Exchange Rate'
     from_currency_code = '1. From_Currency Code'
     from_currency_name = '2. From_Currency Name'
     to_currency_code = '3. To_Currency Code'
