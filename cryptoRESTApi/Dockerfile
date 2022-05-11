@@ -3,6 +3,7 @@ FROM python:3.7-bullseye
 WORKDIR /cryptoREST
 
 COPY ./app ./app
+COPY ./historical_data ./historical_data
 COPY ./requirements ./requirements
 COPY ./settings.py ./settings.py
 
