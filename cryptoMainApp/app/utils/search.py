@@ -8,6 +8,7 @@ class Searcher:
     PREDICTIONS_ENDPOINT: str = 'predictions'
     EXCHANGE_ENDPOINT: str = 'state'
     HEALTH_ENDPOINT: str = 'health'
+    HISTORICAL_ENDPOINT: str = 'history'
 
     def __init__(self, api_key: str, base_url: str):
         self.session = requests.Session()
@@ -31,6 +32,12 @@ class Searcher:
     def get_predictions(self, code: str):
         params: Dict = {'code': code}
         url: str = f'{self.base_url}/{self.PREDICTIONS_ENDPOINT}'
+        response = self.session.get(url, params=params)
+        return response.json()
+
+    def get_historical_data(self, code: str):
+        params: Dict = {'code': code}
+        url: str = f'{self.base_url}/{self.HISTORICAL_ENDPOINT}'
         response = self.session.get(url, params=params)
         return response.json()
 

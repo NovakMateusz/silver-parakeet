@@ -50,6 +50,9 @@ class CurrencyDataModel:
     def _get_predictions(self) -> Dict:
         return self.searcher.get_predictions(self.code)
 
+    def _get_historical_data(self) -> Dict:
+        return self.searcher.get_historical_data(self.code)
+
     def prepare_data(self) -> Dict:
         output = self._get_predictions()
         temp_labels = [item.split(' ')[0] for item in output['prediction']['Close'].keys()]
@@ -59,13 +62,16 @@ class CurrencyDataModel:
             self._filter_predictions(list(output['prediction']['Close'].values()))
         )
         del(output['prediction']['Close'])
+        output['history'] = json.dumps(
+            self._filter_predictions(list(self._get_historical_data()['history']['Price'].values()))
+        )
         output['exchange_rate'] = self._get_exchange_rate()
         output['next_day_prediction'] = self._get_next_day_prediction()
         output['filename'] = prepare_single_image_link(output['name'])
         return output
 
     @staticmethod
-    def _filter_predictions(list_of_elements: List, max_results: int = 365):
+    def _filter_predictions(list_of_elements: List, max_results: int = 200):
         size = len(list_of_elements)
         if size <= max_results:
             return list_of_elements

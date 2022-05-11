@@ -120,12 +120,21 @@
         {{ output_model['prediction']['labels']|safe }}
         const data = {
             labels: labels,
-            datasets: [{
-                label: '{{ output_model['name'] }}',
-                data: {{ output_model['prediction']['values']|safe }},
-                borderColor: 'rgb(139, 115, 86)',
-                tension: 0.1
-            }]
+            datasets: [
+                {
+                    label: 'Prediction',
+                    data: {{ output_model['prediction']['values']|safe }},
+                    borderColor: 'rgb(139, 115, 86)',
+                    tension: 0.1
+                },
+                {
+                    label: '{{ output_model['name'] }}',
+                    data: {{ output_model['history']|safe }},
+                    borderColor: 'rgb(86,93,139)',
+                    tension: 0.1
+                }
+
+            ]
         };
 
         const config = {
