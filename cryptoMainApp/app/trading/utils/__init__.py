@@ -1,5 +1,5 @@
 import json
-from typing import Dict, List
+from typing import Dict, List, Optional
 
 from app.utils.search import Searcher
 from app.utils.constans import CODE_NAME_MAPPING, NAME_CODE_MAPPING
@@ -35,11 +35,12 @@ class OverviewDataModel:
 
 
 class CurrencyDataModel:
-    def __init__(self, searcher: Searcher, code: str):
+    def __init__(self, searcher: Searcher, code: str, return_predictions: int = 30):
         self.searcher = searcher
         if code not in CODE_NAME_MAPPING.keys():
             raise TypeError('Code %s is unsupported' % code)
         self.code = code
+        self.return_predictions: int = return_predictions
 
     def _get_next_day_prediction(self) -> float:
         return self.searcher.get_next_day_prediction(self.code)
@@ -54,17 +55,30 @@ class CurrencyDataModel:
         return self.searcher.get_historical_data(self.code)
 
     def prepare_data(self) -> Dict:
-        output = self._get_predictions()
-        temp_labels = [item.split(' ')[0] for item in output['prediction']['Close'].keys()]
+        output: Dict = {'chart': {}}
 
-        output['prediction']['labels'] = json.dumps(self._filter_predictions(temp_labels))
-        output['prediction']['values'] = json.dumps(
-            self._filter_predictions(list(output['prediction']['Close'].values()))
-        )
-        del(output['prediction']['Close'])
-        output['history'] = json.dumps(
-            self._filter_predictions(list(self._get_historical_data()['history']['Price'].values()))
-        )
+        predictions: Dict = self._get_predictions()
+        predictions_items: Dict = predictions['prediction']['Close']
+        predictions_sorted_keys = sorted(predictions_items.keys())
+
+        output['name'] = predictions['name']
+        output['code'] = predictions['code']
+
+        history_data: Dict = self._get_historical_data()
+        history_data_items: Dict = history_data['history']['Price']
+
+        common_keys = sorted(set(predictions_sorted_keys).intersection(set(history_data_items.keys())))
+        last_common_key = common_keys[-1]
+        last_common_key_index = predictions_sorted_keys.index(last_common_key) + 1
+        predictions_keys = common_keys + predictions_sorted_keys[last_common_key_index: last_common_key_index + self.return_predictions]
+
+        history_data_values = [history_data_items.get(index) for index in common_keys]
+
+        predictions_values = [predictions_items[index] for index in predictions_keys]
+
+        output['chart']['labels'] = predictions_keys
+        output['chart']['predictions'] = predictions_values
+        output['chart']['history'] = history_data_values
         output['exchange_rate'] = self._get_exchange_rate()
         output['next_day_prediction'] = self._get_next_day_prediction()
         output['filename'] = prepare_single_image_link(output['name'])

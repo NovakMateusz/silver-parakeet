@@ -69,6 +69,7 @@ async def load_models(app: Sanic, loop: AbstractEventLoop):
         model: Prophet = models_dict[key]['model']
         future = model.make_future_dataframe(periods=365)
         temp_model = model.predict(future)
+        temp_model['ds'] = temp_model['ds'].dt.strftime('%Y-%m-%d')
         temp_model = temp_model[['ds', 'yhat']].set_index('ds')
         forecast_dictionary[NAME_CODE_MAPPING[key]] = temp_model.rename(columns={'yhat': 'Close'})
     app.ctx.forecast_dictionary = forecast_dictionary
