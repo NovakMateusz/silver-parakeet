@@ -4,8 +4,9 @@ from typing import Dict
 from socket import AF_INET
 
 import aiohttp
-from aiocache import Cache, SimpleMemoryCache
+from aiocache import Cache
 from dropbox import Dropbox
+from dropbox.exceptions import BadInputError
 from sanic import Sanic
 from sanic.log import logger
 import ujson
@@ -41,7 +42,11 @@ async def load_models(app: Sanic, loop: AbstractEventLoop):
     models_path = app.config.MODELS_PATH
     logger.info("[Loading Models] Connecting to DropBox")
     dbx: Dropbox = Dropbox(dropbox_key)
-    _, response = dbx.files_download(path=models_path)
+    try:
+        _, response = dbx.files_download(path=models_path)
+    except BadInputError as error:
+        logger.error("[Loading Models] Error occurred while while connection to DropBox")
+        raise BadInputError(error.request_id, error.message)
     if response.status_code != 200:
         logger.critical(
             "[Loading Models] Problem with DropBox API, can not load models. Status code: %d' % response.status_code"
