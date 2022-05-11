@@ -18,8 +18,6 @@ async def historical_data_view(request: Request):
                                                           status_code=400)
         return json(response_model.dict(), status=response_model.status_code)
 
-    print(request.app.ctx.historical_data)
-    print(request.app.ctx.historical_data.keys())
     historical_data_df = request.app.ctx.historical_data[input_model.code]
     response_model = HistoricalDataResponseModel(name=CODE_NAME_MAPPING[input_model.code],
                                                  code=input_model.code,

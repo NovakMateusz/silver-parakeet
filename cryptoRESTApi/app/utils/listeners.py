@@ -108,5 +108,4 @@ async def load_historical_data(app: Sanic, loop: AbstractEventLoop):
         df = df[::-1]
         historical_data_dict[NAME_CODE_MAPPING[currency_name]] = df
     app.ctx.historical_data = historical_data_dict
-    print(app.ctx.historical_data.keys())
     logger.info("[Loading historical data] All datasets loaded into memory")
