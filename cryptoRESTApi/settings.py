@@ -1,4 +1,5 @@
 import os
+from pathlib import Path
 
 
 class Settings:
@@ -11,3 +12,4 @@ class Settings:
         models_directory = os.environ.get('MODELS_DIRECTORY', '/forecastingModels')
         models_hash = os.environ.get('MODELS_HASH', '08320e1e-5f92-4a22-b371-46e5928d8673')
         self.MODELS_PATH = f'{models_directory}/{models_hash}.pickle'
+        self.DATA_DIR = Path('historical_data')
