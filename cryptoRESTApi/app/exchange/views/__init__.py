@@ -43,10 +43,10 @@ async def currency_state_view(request: Request):
                 logger.info(
                     "[Exchange] Response for %s code: %s" % (input_model.code, json_response))
                 try:
-                    json_response = json_response[ExternalServiceResponseFieldsName.main_key]
+                    json_response = json_response[ExternalServiceResponseFieldsName.main_key.value]
                 except KeyError:
                     logger.error("[Exchange] KeyError: %s. Exceeded number of request to external REST API",
-                                 str(ExternalServiceResponseFieldsName.main_key),)
+                                 str(ExternalServiceResponseFieldsName.main_key.value),)
                     response_model = ExchangeErrorResponseModel(endpoint=request.url,
                                                                 message="Service Unavailable",
                                                                 status_code=503)

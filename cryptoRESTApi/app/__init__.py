@@ -4,7 +4,7 @@ from sanic import Sanic, Blueprint
 import json_logging
 
 from settings import Settings
-from app.utils.listeners import init_aiohttp_session, load_models, init_aiocache
+from app.utils.listeners import init_aiohttp_session, load_models, init_aiocache, load_historical_data
 
 
 def init_json_logging(app: Sanic):
@@ -16,7 +16,9 @@ def register_blueprints(app: Sanic):
     from app.health.views import health_blueprint
     from app.forecast.views import forecast_blueprint
     from app.exchange.views import exchange_blueprint
-    blueprints_group = Blueprint.group(health_blueprint, forecast_blueprint, exchange_blueprint, version='v1')
+    from app.historical.views import historical_data_blueprint
+    blueprints_group = Blueprint.group(health_blueprint, forecast_blueprint, exchange_blueprint,
+                                       historical_data_blueprint, version='v1')
     app.blueprint(blueprints_group)
 
 
@@ -26,7 +28,10 @@ def create_app(app_settings: Optional[Settings] = None) -> Sanic:
     app = Sanic(app_settings.APP_NAME)
     app.update_config(app_settings)
     register_blueprints(app)
+
     app.register_listener(init_aiohttp_session, 'after_server_start')
-    app.register_listener(load_models, 'after_server_start')
     app.register_listener(init_aiocache, 'after_server_start')
+    app.register_listener(load_historical_data, 'after_server_start')
+    app.register_listener(load_models, 'after_server_start')
+
     return app

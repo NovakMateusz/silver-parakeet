@@ -1,8 +1,7 @@
-from datetime import datetime
+from datetime import datetime, date
 from typing import Dict
 
 from sanic import json, Request
-from pandas import Timestamp
 from pydantic import ValidationError
 
 from app.forecast import forecast_blueprint
@@ -52,8 +51,7 @@ async def next_day_prediction_view(request: Request):
         return json(response_model.dict(), status=response_model.status_code)
     prediction: Dict = request.app.ctx.forecast_dictionary[input_model.code].to_dict()
     today: datetime = datetime.now()
-    index: Timestamp = Timestamp(today.strftime("%Y-%m-%d 00:00:00"))
-    result: float = prediction['Close'][index]
+    result: float = prediction['Close'][str(date.today())]
     response_model = NextDayPredictionResponseModel(name=CODE_NAME_MAPPING[input_model.code],
                                                     code=input_model.code,
                                                     prediction=result,
