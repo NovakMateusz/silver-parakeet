@@ -117,21 +117,37 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
         const labels =
-        {{ output_model['prediction']['labels']|safe }}
+        {{ output_model['chart']['labels']|safe }}
         const data = {
             labels: labels,
-            datasets: [{
-                label: '{{ output_model['name'] }}',
-                data: {{ output_model['prediction']['values']|safe }},
-                borderColor: 'rgb(139, 115, 86)',
-                tension: 0.1
-            }]
+            datasets: [
+                {
+                    label: 'Prediction',
+                    data: {{ output_model['chart']['predictions']|safe }},
+                    borderColor: 'rgb(139, 115, 86)',
+                    tension: 0.1
+                },
+                {
+                    label: 'Historical',
+                    data: {{ output_model['chart']['history']|safe }},
+                    borderColor: 'rgb(86,93,139)',
+                    tension: 0.1
+                }
+
+            ]
         };
 
         const config = {
             type: 'line',
             data: data,
-            options: {}
+            options: {
+                plugins: {
+                    title: {
+                        display: true,
+                        text: '{{ output_model['name'] }}'
+                    }
+                }
+            }
         };
     </script>
 

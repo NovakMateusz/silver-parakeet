@@ -28,7 +28,7 @@ def incorrect_code_view():
 @trading_blueprint.route('/<string:code>', methods=['POST', 'GET'])
 @login_required
 def currency_info_view(code: str):
-    # TO REFORMAT
+    # TO REFACTOR
     searcher = current_app.config['searcher']
     try:
         currency_model = CurrencyDataModel(searcher, code)
